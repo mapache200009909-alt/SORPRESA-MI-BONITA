@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorpresa</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{
+  background-image:url('fondo.jpg');
+  background-color:#e8d9ff;
+  background-size:260px;
+  background-repeat:repeat;
+  font-family:'Baloo 2',sans-serif;
+  min-height:100vh;
+  transition: background 0.3s;
+}
+.screen{display:none; min-height:100vh; width:100%; padding:20px; align-items:center; justify-content:center}
+.screen.show{display:flex}
+.card{
+  background:#fdf6ee; border:3.5px solid #cbb6f5; border-radius:24px; padding:28px 22px 24px;
+  text-align:center; box-shadow:8px 8px 0 #cbb6f5; width:100%; max-width:540px;
+}
+h1{font-family:'Fredoka One'; color:#a88bd7; -webkit-text-stroke:2px #fff; 
+text-shadow:3px 3px 0 #7a5cb5; line-height:1; text-transform:uppercase}
+.btn{border:2.5px solid #7a5cb5; background:#fff; color:#7a5cb5;
+   font-family:'Fredoka One'; padding:10px 22px; border-radius:30px; cursor:pointer; margin:5px}
+.btn.si{background:#d9c9ff}
+.video-top{width:130px; height:130px; object-fit:cover; border-radius:18px;
+   border:3px solid #cbb6f5; margin:0 auto 10px; display:block; animation:flotar 2s infinite; cursor:pointer}
+@keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.sub{color:#b9a3d8; font-size:13px; letter-spacing:1px; font-weight:800; margin-top:10px}
+.subt{color:#6e3db3; font-size:13px; letter-spacing:1px; font-weight:800; margin-top:10px}
+.menu-card{max-width:720px}
+.grid4{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px}
+.ku-box{background:#ffeefb; border:3px solid #cbb6f5; border-radius:14px; padding:8px; cursor:pointer}
+.ku-box img{width:70px; height:70px; object-fit:contain}
+.flores-wrap{display:grid; grid-template-columns:1fr 200px 1fr; align-items:center; justify-content:center; gap:10px; margin-top:18px}
+.lado{display:flex; flex-direction:column; gap:8px}
+.lado.left{align-items:flex-end}
+.lado.right{align-items:flex-start}
+.centro{display:flex; justify-content:center}
+.bubble{background:#e9ddff; border:2px solid #7a5cb5; border-radius:20px; padding:6px 12px; font-size:11px; font-weight:700; color:#6a4da1; margin:3px; display:inline-block; text-align:center}
+.bouquet{width:190px; border-radius:20px; border:3px solid #cbb6f5; animation:flotar 2s infinite}
+.cancion-card{max-width:900px}
+.cancion-layout{display:grid; grid-template-columns:1.2fr .8fr; gap:14px; margin-top:14px; text-align:left}
+.video-yt{width:100%; aspect-ratio:16/9; border-radius:14px; border:3px solid #cbb6f5; overflow:hidden; background:#000}
+.video-yt iframe{width:100%; height:100%; border:0}
+.lyrics{background:#f3e8ff; border:2px solid #cbb6f5; border-radius:14px; padding:12px; font-size:11px; line-height:1.4; color:#5a3d8a; max-height:250px; overflow:auto}
+.recuerdos-card{max-width:900px}
+.foto{width:120px; height:120px; overflow:hidden; background:#fff; border:3px solid #cbb6f5; border-radius:14px; display:flex; align-items:center; justify-content:center; cursor:pointer}
+.foto video, .foto img{width:100%; height:100%; object-fit:cover}
+.carta-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; text-align:left; margin-top:14px}
+.carta-box{background:#f3e8ff; border:2px solid #cbb6f5; border-radius:14px; padding:14px; font-size:12.5px; line-height:1.45; color:#5a3d8a}
+@media(max-width:600px){.flores-wrap{grid-template-columns:1fr;}.lado.left,.lado.right{align-items:center} .cancion-layout,.carta-grid{grid-template-columns:1fr}}
+#p0.no-kuromi{background-color:#e8d9ff !important; background-image:none !important;}
+#p0.no-kuromi .contenido-p0{text-align:center; display:flex; flex-direction:column; align-items:center; gap:12px;}
+#p0 .bouquet{width:270px; max-width:85vw; border:none; box-shadow:0 10px 20px rgba(0,0,0,0.1);}
+#moratVideo{width:100%; border-radius:14px; border:3px solid #cbb6f5; background:#000}
+/* ESTO ES PARA QUE LOS VIDEOS SE ABRAN */
+#videoModal{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center; padding:20px}
+#videoModal.show{display:flex}
+#videoModal video{max-width:90%; max-height:90%; border-radius:20px; border:3px solid #fff}
+</style>
+</head>
+<body>
+
+<!-- MUSICA DE FONDO AUTOMATICA SIN BOTON -->
+<audio id="bgMusic" loop playsinline preload="auto">
+  <source src="ruinas.mp3" type="audio/mpeg">
+  <source src="ruinas.m4a" type="audio/mp4">
+</audio>
+
+<!-- VENTANA 1 -->
+<div id="p1" class="screen show">
+  <div class="card">
+    <video class="video-top" autoplay loop muted playsinline onclick="openVideo(this)"><source src="ini.mp4" type="video/mp4"></video>
+    <h1 style="font-size:36px">SORPRESA<br>MI BONITA ESPERO Y TE GUSTE</h1>
+    <div class="sub">QUIERES VER LA SORPRESA QUE TE HICE?</div>
+    <div style="margin-top:18px">
+      <button class="btn" onclick="go('p2')">NO GRACIAS</button>
+      <button class="btn si" onclick="go('p3')">SI PORFAVOR</button>
+    </div>
+  </div>
+</div>
+
+<!-- VENTANA 2 -->
+<div id="p2" class="screen">
+  <div class="card">
+<img class="video-top" src="LOO.gif" alt="kuromi">
+    <h1 style="font-size:32px">POR FAVOR!! TE GUSTARA!!</h1>
+    <div class="sub">¿LE DAS OTRA OPORTUNIDAD?</div>
+    <div style="margin-top:16px"><button class="btn si" onclick="go('p3')">SI 💓</button></div>
+  </div>
+</div>
+
+<!-- VENTANA 3 - MENU -->
+<div id="p3" class="screen">
+  <div class="card menu-card">
+    <h1 style="font-size:28px">¡REGALOS SORPRESA PARA TI!</h1>
+    <div class="sub">HAZ CLICK EN CADA UNO</div>
+    <div class="grid4">
+      <div class="ku-box" onclick="go('p4')"><img src="kuro.jpg"><br></div>
+      <div class="ku-box" onclick="go('p5')"><img src="mu.jpg"><br></div>
+      <div class="ku-box" onclick="go('p6')"><img src="cuidar.jpg"><br></div>
+      <div class="ku-box" onclick="go('p7')"><img src="fknvibra.jpg"><br></div>
+    <button class="btn si" style="margin-top:24px" onclick="go('p1')">⬅ VOLVER</button>
+
+    </div>
+  </div>
+</div>
+
+<!-- VENTANA 4 - FLORES -->
+<div id="p4" class="screen">
+  <div class="card flores-card">
+    <h1 style="font-size:24px">FLORES PARA TI MI PRECIOSA</h1>
+    <div class="sub">TE QUIERO MUCHO MUCHO MUCHO MUCHO MUCHOTE</div>
+    <div class="flores-wrap">
+      <div class="lado left">
+        <span class="bubble">Para mi bonita</span>
+        <span class="bubble">Me haces tan feliz mi vida</span>
+        <span class="bubble">Tu eres princesa consentida</span>
+        <span class="bubble">Eres todo lo que quiero</span>
+        <span class="bubble">eres totalmente perfecta a tu manera</span>
+      </div>
+      <div class="centro">
+        <img src="florea.jpg" class="bouquet">
+      </div>
+      <div class="lado right">
+        <span class="bubble">Para mi Jefecito inosuke</span>
+        <span class="bubble">Tu sonrisa ilumina mi vida</span>
+        <span class="bubble">Tu siempre primis</span>
+        <span class="bubble">Bonita siempre</span>
+        <span class="bubble">Eres la razón de mi felicidad y mi motivacion</span>
+      </div>
+    </div>
+    <div style="margin-top:20px"><button class="btn" onclick="go('p3')">REGRESAR</button></div>
+  </div>
+</div>
+
+<!-- VENTANA 5 - CANCION -->
+<div id="p5" class="screen">
+  <div class="card cancion-card">
+    <h1 style="font-size:26px">TE DEDICO ESTA CANCIÓN</h1>
+    <div class="sub">A DONDE VAMOS-MORAT</div>
+    <div class="cancion-layout">
+    <video id="moratVideo" class="video-top" controls playsinline style="width:100%; height:auto;"><source src="morat.mp4" type="video/mp4"></video>
+            <div class="lyrics"><b>MI BONITA 💓<br><br>Esta canción si es muy yo jaja pero es que , 
+        porque desde que te vi sinceramneta me enamore de ti y no quiero que te vayas nunca de mi vida aunque sea quedate como una buena amistad si 
+        y es que mira jaja lit siempre desde que hablamos literal andabamos y A DONDE VAMOS? y si
+        No dejo deje de  mirar ni un segundo (desde que te vi afuera del salon toda agitada jaja xq segun no llegabas )
+Cuando tú estás desaparece el mundo (alch siempre que estaba y estoy contigo td se vuelve mejor todo es calma en una tormenta)
+Mejores noches yo no creo que existan (las noches que empezamos a concocernos jaja ame alch daban las 5 o 6 y tu te dormias y yo ya me levantaba a chambear jaja o las de noches de esquizofrenia)
+Y aunque me pida otra cerveza, solo me interesa ( empeze a tomar miches ajja x ti y x es elugar tan santo q se veia jaja tmmsts neta o cuando tu tamal ajaj o las fresas y rompope)
+Beber de ti, de ti, de ti (chance no qda ya esto pero si lo cambiamos por un y beber contigo ,solo contigo y emboracharnos una vez mas ajja mme la neta)
+Emborracharme así de ti 
+        . Te amo con todo mi corazón y eso no lo negare mi bonita pero es mas mi cariño que te quiero y eso jams se le tiene que olvidar 
+        y si se llega a olvidar o perder en el camnino al amontaña Jefecito inosuke cosa1 siempe estara para recordarselo y recordarle el 
+        camnino hacia la montaña promesa de garrita te adoro mi bonita.</b></div>
+    </div>
+    <button class="btn si" style="margin-top:14px" onclick="go('p3')">⬅ VOLVER</button>
+  </div>
+</div>
+
+<!-- VENTANA 6 - RECUERDOS EN CORAZONES -->
+<div id="p6" class="screen">
+  <div class="card recuerdos-card" style="max-width:800px">
+    <h1 style="font-size:26px">NUESTROS RECUERDOS</h1>
+    <div class="sub">NUESTROS MOMENTOS DONDE SOLO FUIMOS TU Y YO AUNQUE UBIERA GENTE AL REDOR</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px">
+  <img src="ft1.jpg" style="width:75px;height:75px;object-fit:cover;border-radius:12px;border:2.5px solid #cbb6f5" onclick="openImg(this.src)">
+  <img src="ft2.jpg" style="width:75px;height:75px;object-fit:cover;border-radius:12px;border:2.5px solid #cbb6f5" onclick="openImg(this.src)">
+  <img src="ft3.jpg" style="width:75px;height:75px;object-fit:cover;border-radius:12px;border:2.5px solid #cbb6f5" onclick="openImg(this.src)">
+  <img src="ft4.jpg" style="width:75px;height:75px;object-fit:cover;border-radius:12px;border:2.5px solid #cbb6f5" onclick="openImg(this.src)">
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:16px">
+      <div class="foto"><video autoplay loop muted playsinline onclick="openVideo(this)"><source src="v1.mp4"></video></div>
+      <div class="foto"><video autoplay loop muted playsinline onclick="openVideo(this)"><source src="v2.mp4"></video></div>
+      <div class="foto"><video autoplay loop muted playsinline onclick="openVideo(this)"><source src="v3.mp4"></video></div>
+      <div class="foto"><video autoplay loop muted playsinline onclick="openVideo(this)"><source src="v4.mp4"></video></div>
+      <div class="foto"><video autoplay loop muted playsinline onclick="openVideo(this)"><source src="v5.mp4"></video></div>
+      <div class="foto"><video autoplay loop muted playsinline onclick="openVideo(this)"><source src="v6.mp4"></video></div>
+      <div class="foto"><video autoplay loop muted playsinline onclick="openVideo(this)"><source src="v7.mp4"></video></div>
+      <div class="foto"><video autoplay loop muted playsinline onclick="openVideo(this)"><source src="v8.mp4"></video></div>
+      <div class="foto"><video autoplay loop muted playsinline onclick="openVideo(this)"><source src="v9.mp4"></video></div>
+      <div class="foto"><video autoplay loop muted playsinline onclick="openVideo(this)"><source src="v10.mp4"></video></div>
+      <div class="foto"><video autoplay loop muted playsinline onclick="openVideo(this)"><source src="v11.mp4"></video></div>
+    </div>
+    <div class="subt">ESTA ES MI RAZON DE QUE SEAS TU Y ES MI PORQUE </div>
+    <div style="margin-top:20px"><button class="btn si" onclick="go('p3')">⬅ VOLVER</button></div>
+  </div>
+</div>
+
+<!-- VENTANA 7 - TE AMO -->
+<div id="p7" class="screen">
+  <div class="card carta-card">
+    <h1 style="font-size:26px">TE AMO y QUIERO MUCHO MI JEFECITO INOSUKE</h1>
+    <div class="carta-grid">
+      <div class="carta-box">Quiero que sepas que me haces de una manera que a veces no se explicar. Me haces sentir algo tan bonito y especial que simplemente no quiero que termine aunque suene muy egoista de mi parte alch eres esa chica con la que quiero ser egoista el resto de mi vida te quiero un chingo y no quiero que te vayas nunca eres de las pocas personas que si me doleria perder. Tus ojos, tu sonrisa, tu forma de ser y tus detalles son unicos y creme que poco a poco me he encariñado de ti gracias al apoyo paciencia mucha paciencia pa ser honestas jaja por confiar en mi preciosa te adoro enserio te quiero y adoro como no tienes idea al final del dia eres uno de los propositos que tengo en esta vida y que cuidare y hare lo posible para lograrlo tu y yo contra el mundo de mrd jefecito inosuke y cosa 1 siempre llendo a reinar otra montaña mas aunque sea la mas alta con mucha neblina tu y yo la superaremos lo aseguro espero y te haya gustado esta sorpresa mi bonita se que era mas facil hacerlo desde canva pero realmente queria que fuera unico asi como tu aparte lit este enlace sera publico y cualquier persona podra verlo xq esta en linea jajaj asi que espero y te haya gustado creme que se que no es mucho o es algo muy simple pero ps que te digo :) solo espero y te guste va y neta jamas pero jamas dudes de lo que siento por ti porque es tan perro sincero que siempre te lo hare recordar y ese sera el 3/3 tu aplicacion para que recuerdes cuanto te quiero y cuantas veces al dia te lo quiero recordar va espero que los 2/3 que ya has visto te gusten y juro esforzarme mas tanto en la escuela para luego mejorar todo esto tanto en tu aplicacion va le echare ganitas pero tambien quiero que tu le eches ganitas va estare para apoyarte siempre lo juro asi que a echarle ganitas esforzarnos y si dios quiere y dependiendo que pase y todo eso jaja porque uno nunca sabe con quien estara en un futuro pero si se da que en unos 4 años nos vayamos a cualquier lado de viaje tu y yo alch sabre que todo este esfuerzo valdria la pena y ese es mi porque de seguir estudiando y echarle ganitas.</div>
+      <div class="carta-box">Quiero que sepas que siempre estaré aquí para cuidarte, hacerte feliz y tratarte como mereces como la princesa que siempre sera primis en mi vida. Me haces cada día más feliz y cada momento a tu lado es divertido me haces olvidar y calmar la tormenta. Te amo y quiero mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho mucho mucho mucho  mucho mucho mucho mucho mucho mucho muchote jsjsj te adoro neta nunca lo olvides porque si lo haces estare ahi para recordartelo bonita.</div>
+    </div>
+    <button class="btn si" style="margin-top:14px" onclick="go('p3')">⬅ VOLVER</button>
+  </div>
+</div>
+
+<!-- MODAL PARA ABRIR VIDEOS EN GRANDE -->
+<div id="videoModal" onclick="closeModal()"><video id="modalVideo" controls autoplay playsinline></video></div>
+
+<script>
+const bgMusic = document.getElementById('bgMusic');
+const moratVideo = document.getElementById('moratVideo');
+if(bgMusic) bgMusic.volume = 0.9;
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));
+  const target = document.getElementById(id);
+  if(target) target.classList.add('show');
+
+  if(id === 'p5'){
+    if(bgMusic) bgMusic.pause();
+    if(moratVideo) moratVideo.play().catch(()=>{});
+  } else {
+    if(moratVideo){ moratVideo.pause(); }
+    if(bgMusic) bgMusic.play().catch(()=>{});
+  }
+  window.scrollTo(0,0);
+}
+
+window.addEventListener('load', ()=>{ if(bgMusic) bgMusic.play().catch(()=>{}); });
+document.addEventListener('click', ()=>{ if(bgMusic) bgMusic.play().catch(()=>{}); }, {once:true});
+document.addEventListener('touchstart', ()=>{ if(bgMusic) bgMusic.play().catch(()=>{}); }, {once:true});
+
+function openVideo(el){
+  const modal = document.getElementById('videoModal');
+  const modalVideo = document.getElementById('modalVideo');
+  const src = el.querySelector ? el.querySelector('source').src : el.src;
+  if(!src) return;
+  modalVideo.src = src;
+  modal.classList.add('show');
+  modalVideo.play();
+  if(bgMusic) bgMusic.pause();
+}
+function openImg(src){
+  const modal = document.getElementById('videoModal');
+  const modalVideo = document.getElementById('modalVideo');
+  modalVideo.poster = src;
+  modal.classList.add('show');
+}
+function closeModal(){
+  const modal = document.getElementById('videoModal');
+  const modalVideo = document.getElementById('modalVideo');
+  modal.classList.remove('show');
+  modalVideo.pause();
+  modalVideo.src = '';
+  if(bgMusic) bgMusic.play().catch(()=>{});
+}
+</script>
+</body>
+</html>
